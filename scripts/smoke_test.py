@@ -281,14 +281,14 @@ def test_metadata_block_round_trip():
     # 完整往返
     notes = "正式备注内容"
     meta = {"project": "A 项目", "task_type": "文件审阅",
-            "aux_tags": ["紧急", "待审"], "formal_title": "A 项目股东协议修订"}
+            "aux_tags": ["紧急", "待审"], "formal_title": "A 项目方案修订"}
     body = tm.serialize_metadata_block(notes, meta)
     parsed_notes, parsed_meta = tm.parse_metadata_block(body)
     check("user_notes 一致", parsed_notes == notes, repr(parsed_notes))
     check("project 一致", parsed_meta.get("project") == "A 项目", str(parsed_meta))
     check("task_type 一致", parsed_meta.get("task_type") == "文件审阅", str(parsed_meta))
     check("aux_tags 一致", parsed_meta.get("aux_tags") == ["紧急", "待审"], str(parsed_meta))
-    check("formal_title 一致", parsed_meta.get("formal_title") == "A 项目股东协议修订", str(parsed_meta))
+    check("formal_title 一致", parsed_meta.get("formal_title") == "A 项目方案修订", str(parsed_meta))
 
     # 无 metadata block 容错（iPhone 手动加的任务）
     parsed_notes, parsed_meta = tm.parse_metadata_block("普通备注")
