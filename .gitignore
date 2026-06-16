@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# macOS
+.DS_Store
+
+# Runtime data (created at ~/.smart-calendar or SMART_CALENDAR_DATA_DIR)
+tasks.json
+tasks.json.bak
+config.json
+loop-state.json
+*.tmp
+tmp_*.scpt
+
+# Local launchd plists (generated from templates)
+com.smartcalendar.*.plist
