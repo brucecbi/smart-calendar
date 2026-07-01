@@ -269,6 +269,17 @@ def test_weekly_report_file():
     # 隔离目录在主流程 finally 里整体清理，无需单独处理
 
 
+def test_weekly_report_rejects_git_repo():
+    print("\n[Test] 周报拒绝写入 Git repo")
+    repo_dir = _ISOLATED_DATA_DIR / "git_repo"
+    (repo_dir / ".git").mkdir(parents=True)
+    output_dir = repo_dir / "reports"
+    out, err, rc = run(["weekly-report", "--output-dir", str(output_dir)])
+    check("命令被拒绝", rc != 0, out)
+    check("错误信息明确", "拒绝将周报写入 Git 仓库内" in err, err)
+    check("未生成周报文件", not output_dir.exists(), str(output_dir))
+
+
 def test_metadata_block_round_trip():
     """方向 B：metadata block 序列化 ↔ 解析往返。纯 Python，不调 AppleScript。"""
     print("\n[Test] metadata block 往返（方向 B）")
@@ -581,6 +592,7 @@ if __name__ == "__main__":
         test_weekly_report_console()
         test_weekly_report_team_name_concat()
         test_weekly_report_file()
+        test_weekly_report_rejects_git_repo()
 
         # Phase 7: 方向 B — Apple 真源 + metadata block + sync
         test_metadata_block_round_trip()

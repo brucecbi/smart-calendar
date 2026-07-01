@@ -14,5 +14,10 @@ loop-state.json
 *.tmp
 tmp_*.scpt
 
+# Generated weekly reports
+reports/
+*周报（*.md
+*Weekly Report（*.md
+
 # Local launchd plists (generated from templates)
 com.smartcalendar.*.plist

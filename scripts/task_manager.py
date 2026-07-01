@@ -1119,6 +1119,14 @@ def _is_task_todo(t: dict, week_end: datetime) -> bool:
     return True
 
 
+def _assert_report_output_outside_git(output_path: Path):
+    """拒绝将周报写入 Git worktree 内。"""
+    resolved = output_path.resolve()
+    for directory in (resolved, *resolved.parents):
+        if (directory / ".git").exists():
+            raise ValueError(f"拒绝将周报写入 Git 仓库内：{resolved}")
+
+
 def generate_weekly_report(now: datetime = None, output_path: Optional[Path] = None) -> str:
     """
     生成周报（项目-进展-待办三级结构）
@@ -1270,6 +1278,7 @@ def generate_weekly_report(now: datetime = None, output_path: Optional[Path] = N
     # 如果指定了输出路径，写入文件
     if output_path:
         output_path = Path(output_path)
+        _assert_report_output_outside_git(output_path)
         output_path.mkdir(parents=True, exist_ok=True)
         filename = f"{full_title}（{week_end_date}）.md"
         filepath = output_path / filename
